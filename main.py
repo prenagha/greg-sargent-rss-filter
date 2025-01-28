@@ -45,7 +45,7 @@ def get_json_feed(debug):
         post_file.close()
 
     log("Parse Start")
-    page = BeautifulSoup(html.text, 'xml')
+    page = BeautifulSoup(html.text, 'html.parser')
     log("Parse End")
 
     feed_items = []
@@ -67,7 +67,7 @@ def get_json_feed(debug):
         mp3_length = enclosure.get('length')
         mp3_duration = article.find('itunes:duration').text
 
-        article_date_string = article.find('pubDate').text
+        article_date_string = article.find('pubdate').text
         #       <pubDate>Tue, 28 Jan 2025 15:39:10 -0000</pubDate>
         article_date = datetime.strptime(article_date_string, "%a, %d %b %Y %H:%M:%S %z").isoformat()
 
