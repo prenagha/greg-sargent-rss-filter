@@ -2,6 +2,7 @@
 
 Given a paid private DSR network RSS feed, 
 filter out and include only Daily Blast podcasts, 
+from within the last 10 days,
 and return those in JSON Feed format.
 
 The script can be easily deployed as an AWS lambda. 

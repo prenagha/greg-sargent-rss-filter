@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 import json
@@ -24,7 +24,7 @@ def log(message):
 def lambda_handler(event, context):
     return {
         'statusCode': 200,
-        'headers': {'Content-Type': 'application/json'},
+        'headers': {'Content-Type': 'application/json', 'Cache-Control': 'max-age=14400'},
         'body': get_json_feed(False)
     }
 
@@ -48,10 +48,17 @@ def get_json_feed(debug):
     page = BeautifulSoup(html.text, 'html.parser')
     log("Parse End")
 
+    oldest = datetime.now(ZoneInfo('UTC')) - timedelta(days=10)
     feed_items = []
     for article in page.find_all('item'):
         article_title = article.find('title').text
         if 'Daily Blast' not in article_title:
+            continue
+
+        # <pubDate>Tue, 28 Jan 2025 15:39:10 -0000</pubDate>
+        article_date_string = article.find('pubdate').text
+        article_date = datetime.strptime(article_date_string, "%a, %d %b %Y %H:%M:%S %z")
+        if article_date < oldest:
             continue
 
         article_title = (article_title.removeprefix('The Daily Blast')
@@ -67,16 +74,12 @@ def get_json_feed(debug):
         mp3_length = int(enclosure.get('length'))
         mp3_duration = int(article.find('itunes:duration').text)
 
-        article_date_string = article.find('pubdate').text
-        #       <pubDate>Tue, 28 Jan 2025 15:39:10 -0000</pubDate>
-        article_date = datetime.strptime(article_date_string, "%a, %d %b %Y %H:%M:%S %z").isoformat()
-
         feed_article = {
             'id': article_id,
             'title': article_title,
             'authors': [{'name': 'Greg Sargent'}],
             'content_html': article_body,
-            'date_published': article_date,
+            'date_published': article_date.isoformat(),
             'image': ICON,
             'banner_image': ICON,
             'attachments': [{
