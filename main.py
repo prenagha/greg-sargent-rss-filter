@@ -64,8 +64,8 @@ def get_json_feed(debug):
         enclosure = article.find('enclosure')
         mp3_url = enclosure.get('url')
         mp3_type = enclosure.get('type')
-        mp3_length = enclosure.get('length')
-        mp3_duration = article.find('itunes:duration').text
+        mp3_length = int(enclosure.get('length'))
+        mp3_duration = int(article.find('itunes:duration').text)
 
         article_date_string = article.find('pubdate').text
         #       <pubDate>Tue, 28 Jan 2025 15:39:10 -0000</pubDate>
