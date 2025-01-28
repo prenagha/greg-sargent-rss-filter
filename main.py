@@ -45,7 +45,7 @@ def get_json_feed(debug):
         post_file.close()
 
     log("Parse Start")
-    page = BeautifulSoup(html.text, 'html.parser')
+    page = BeautifulSoup(html.text, 'lxml')
     log("Parse End")
 
     feed_items = []
