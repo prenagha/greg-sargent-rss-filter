@@ -40,11 +40,17 @@ def sorter(el):
 
 
 def tag(xml, tag_name, tag_value):
-    xml.write('\n<' + tag_name + '>' + tag_value + '</' + tag_name + '>')
+    if tag_value is not None:
+      xml.write('\n<' + tag_name + '>' + tag_value.strip() + '</' + tag_name + '>')
 
 
 def tag_encoded(xml, tag_name, tag_value):
-    encoded = tag_value.replace('<', '&lt;').replace('>', '&gt;').replace("\xa0", " ").strip()
+    encoded = tag_value.replace("&", "&amp;")
+    encoded = encoded.replace("<", "&lt;")
+    encoded = encoded.replace(">", "&gt;")
+    encoded = encoded.replace("\"", "&quot;")
+    encoded = encoded.replace("'", "&apos;")
+    encoded = encoded.replace("\xa0", " ")
     tag(xml, tag_name, encoded)
 
 
