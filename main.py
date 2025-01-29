@@ -44,7 +44,7 @@ def get_feed(debug):
     fg.id(url)
     fg.title('Daily Blast+')
     fg.description('Daily Blast+')
-    fg.link( href='https://newrepublic.com/podcasts/the-daily-blast-greg-sargent', rel='alternate' )
+    fg.link(href='https://newrepublic.com/podcasts/the-daily-blast-greg-sargent', rel='alternate')
     fg.logo(ICON)
     fg.generator('https://github.com/prenagha/greg-sarget-rss-filter')
     fg.language('en')
@@ -94,7 +94,6 @@ def get_feed(debug):
         fe.description(article.find('content:encoded').text.replace("\xa0", " "))
         fe.published(article_date)
         fe.enclosure(mp3_url, mp3_length, mp3_type)
-
 
     log("END")
     return fg.rss_str(pretty=True).decode('utf-8')
