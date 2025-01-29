@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
-from feedgen.feed import FeedGenerator
 from io import StringIO
 from zoneinfo import ZoneInfo
 
@@ -111,7 +110,7 @@ def get_feed(debug):
         tag_encoded(xml, 'description', article.find('content:encoded').text)
         xml.write('\n<guid isPermaLink="false">' + guid + '</guid>')
         tag(xml, 'pubDate', article_date.strftime("%a, %d %b %Y %H:%M:%S %z"))
-        xml.write('\n<enclosure url="'+ mp3_url + '" length="' + mp3_length + '" type="' + mp3_type + '"/>')
+        xml.write('\n<enclosure url="' + mp3_url + '" length="' + mp3_length + '" type="' + mp3_type + '"/>')
         xml.write('\n</item>')
 
     log("END")
