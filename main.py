@@ -24,7 +24,10 @@ def log(message):
 def lambda_handler(event, context):
     return {
         'statusCode': 200,
-        'headers': {'Content-Type': 'application/json', 'Cache-Control': 'max-age=14400'},
+        'headers': {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'max-age=240'
+        },
         'body': get_json_feed(False)
     }
 
