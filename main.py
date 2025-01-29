@@ -26,7 +26,7 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'headers': {
             'Content-Type': 'application/json',
-            'Cache-Control': 'max-age=240'
+            'Cache-Control': 'max-age=14400'
         },
         'body': get_json_feed(False)
     }
