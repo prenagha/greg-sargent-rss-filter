@@ -55,7 +55,13 @@ def tag_encoded(xml, tag_name, tag_value):
 
 
 def get_feed(debug):
+    if 'URL' not in os.environ:
+        raise Exception("URL missing from environment")
+
     url = os.environ.get("URL")
+
+    if not url.startswith("https://"):
+        raise Exception("URL invalid -- " + url)
 
     xml = StringIO()
     xml.write("""<?xml version='1.0' encoding='UTF-8'?>
